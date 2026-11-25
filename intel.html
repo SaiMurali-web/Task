@@ -3,824 +3,727 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CineBook · movie booking</title>
-  <!-- Font Awesome for icons (optional but adds style) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <title>UrbanCart · online shopping</title>
+  <!-- Font Awesome 5 (free) for icons -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+  <!-- Google Font for clean typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
     }
 
     body {
-      background: linear-gradient(145deg, #0b0f1a 0%, #121827 100%);
+      font-family: 'Inter', sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      padding: 1.5rem;
     }
 
-    .app {
-      max-width: 1300px;
-      width: 100%;
-      background: rgba(18, 25, 40, 0.75);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 2.5rem;
-      padding: 2rem 2rem 2.5rem;
-      box-shadow: 0 30px 50px -15px rgba(0, 0, 0, 0.7);
-    }
-
-    /* header */
-    .header {
+    /* ---------- header + navigation ---------- */
+    .top-bar {
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      padding: 0.8rem 2rem;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       flex-wrap: wrap;
       gap: 1rem;
-      margin-bottom: 2rem;
+      border-bottom: 1px solid #e9eef3;
     }
 
     .logo {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 1.6rem;
+      letter-spacing: -0.02em;
+      color: #1e293b;
     }
 
     .logo i {
-      font-size: 2.4rem;
-      color: #ffb347;
-      text-shadow: 0 0 15px rgba(255, 180, 70, 0.4);
-    }
-
-    .logo h1 {
+      color: #3b82f6;
       font-size: 2rem;
-      font-weight: 600;
-      letter-spacing: -0.5px;
-      color: #f0f3fa;
     }
 
-    .logo span {
-      color: #ffb347;
-      font-weight: 700;
-    }
-
-    .user-badge {
+    .search-wrapper {
       display: flex;
       align-items: center;
-      gap: 0.8rem;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 0.6rem 1.4rem 0.6rem 1rem;
-      border-radius: 50px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #cfd9e6;
+      background: #f1f5f9;
+      border-radius: 60px;
+      padding: 0.4rem 0.4rem 0.4rem 1.2rem;
+      flex: 1 1 300px;
+      max-width: 500px;
+      transition: box-shadow 0.2s;
+    }
+
+    .search-wrapper:focus-within {
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      background: #ffffff;
+    }
+
+    .search-wrapper i {
+      color: #64748b;
+      font-size: 1rem;
+    }
+
+    .search-wrapper input {
+      border: none;
+      background: transparent;
+      padding: 0.6rem 0.8rem;
       font-size: 0.95rem;
+      width: 100%;
+      outline: none;
+      font-family: inherit;
     }
 
-    .user-badge i {
-      font-size: 1.3rem;
-      color: #ffb347;
-    }
-
-    /* movies grid */
-    .section-title {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .section-title i {
-      font-size: 1.8rem;
-      color: #ffb347;
-    }
-
-    .section-title h2 {
-      font-size: 1.6rem;
-      font-weight: 500;
-      color: #eef3fc;
-      letter-spacing: -0.3px;
-    }
-
-    .movie-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1.8rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .movie-card {
-      background: #1b2333;
-      border-radius: 1.5rem;
-      overflow: hidden;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    .search-wrapper button {
+      background: #3b82f6;
+      border: none;
+      border-radius: 60px;
+      padding: 0.6rem 1.4rem;
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
       cursor: pointer;
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.5);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .movie-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 24px 30px -10px #00000099;
-      border-color: rgba(255, 180, 70, 0.25);
-    }
-
-    .poster {
-      height: 240px;
-      background-size: cover;
-      background-position: center;
-      position: relative;
-      display: flex;
-      align-items: flex-end;
-      justify-content: flex-start;
-      padding: 0.8rem;
-    }
-
-    /* poster gradient overlay + emoji fallback */
-    .poster::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, #0b0f1a 10%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .poster .rating {
-      position: relative;
-      z-index: 2;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      color: #ffd966;
-      font-weight: 600;
-      padding: 0.25rem 0.7rem;
-      border-radius: 40px;
-      font-size: 0.85rem;
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-      border: 1px solid rgba(255, 210, 90, 0.3);
-    }
-
-    .movie-info {
-      padding: 1rem 1rem 1.3rem;
-    }
-
-    .movie-info h3 {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #f0f5ff;
-      margin-bottom: 0.4rem;
+      transition: background 0.2s;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
     }
 
-    .movie-meta {
+    .search-wrapper button:hover {
+      background: #2563eb;
+    }
+
+    .nav-icons {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      color: #94a3b8;
-      font-size: 0.85rem;
+      gap: 1.8rem;
+    }
+
+    .nav-icons a {
+      color: #334155;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+
+    .nav-icons a:hover {
+      color: #3b82f6;
+    }
+
+    .cart-icon {
+      position: relative;
+    }
+
+    .cart-count {
+      background: #ef4444;
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 0.15rem 0.45rem;
+      position: absolute;
+      top: -8px;
+      right: -12px;
+      line-height: 1.2;
+    }
+
+    /* ---------- hero / promo banner ---------- */
+    .hero {
+      background: linear-gradient(135deg, #eef2ff 0%, #ffffff 100%);
+      margin: 1.5rem 2rem 0.5rem;
+      border-radius: 28px;
+      padding: 2.2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      border: 1px solid #e2e8f0;
+    }
+
+    .hero-text h1 {
+      font-size: 2.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0b1e33;
+      margin-bottom: 0.3rem;
+    }
+
+    .hero-text p {
+      color: #475569;
+      font-size: 1.1rem;
       margin-bottom: 1rem;
     }
 
-    .movie-meta i {
-      margin-right: 0.25rem;
-      color: #ffb347;
+    .hero-badge {
+      background: #3b82f6;
+      color: white;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      display: inline-block;
+      letter-spacing: 0.3px;
     }
 
-    .book-btn {
-      width: 100%;
-      background: #ffb347;
-      color: #0b0f1a;
-      font-weight: 700;
+    .hero-btn {
+      background: #0f172a;
+      color: white;
       border: none;
-      padding: 0.7rem 0;
-      border-radius: 40px;
-      font-size: 0.9rem;
+      padding: 0.8rem 2rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.95rem;
       cursor: pointer;
-      transition: 0.2s;
+      transition: background 0.2s, transform 0.1s;
+      box-shadow: 0 8px 18px -6px rgba(15, 23, 42, 0.2);
+    }
+
+    .hero-btn:hover {
+      background: #1e293b;
+    }
+
+    .hero-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* ---------- filter / category bar ---------- */
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.6rem 1.2rem;
+      padding: 1rem 2rem 0.2rem;
+    }
+
+    .category-chip {
+      background: white;
+      border: 1px solid #dbe3ed;
+      color: #1e293b;
+      padding: 0.5rem 1.3rem;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .category-chip:hover {
+      background: #eef2f6;
+      border-color: #94a3b8;
+    }
+
+    .category-chip.active {
+      background: #0f172a;
+      border-color: #0f172a;
+      color: white;
+    }
+
+    /* ---------- product grid ---------- */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.8rem;
+      padding: 1.5rem 2rem 3rem;
+      max-width: 1500px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 24px;
+      padding: 1.5rem 1.2rem 1.2rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.02), 0 2px 6px rgba(0, 0, 0, 0.03);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #f1f5f9;
+      position: relative;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 32px -12px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.02);
+      border-color: #e2e8f0;
+    }
+
+    .product-image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: #f8fafc;
+      border-radius: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.4rem;
-      letter-spacing: 0.3px;
-      box-shadow: 0 6px 12px -4px #ffb34750;
+      font-size: 3.8rem;
+      color: #3b82f6;
+      margin-bottom: 1.2rem;
+      transition: background 0.2s;
+      object-fit: cover;
     }
 
-    .book-btn:hover {
-      background: #ffa62b;
-      box-shadow: 0 10px 18px -4px #ffb34770;
-      transform: scale(1.02);
+    .product-card:hover .product-image {
+      background: #eff6ff;
     }
 
-    .book-btn i {
+    .product-title {
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: #0f172a;
+      margin-bottom: 0.3rem;
+      line-height: 1.35;
+    }
+
+    .product-category {
+      font-size: 0.78rem;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-price {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 0.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .current-price {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .old-price {
+      font-size: 0.95rem;
+      color: #94a3b8;
+      text-decoration: line-through;
+    }
+
+    .add-to-cart {
+      background: #f1f5f9;
+      border: none;
+      border-radius: 40px;
+      padding: 0.7rem 0.5rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      margin-top: auto;
+      transition: background 0.2s, color 0.2s;
+      font-family: inherit;
+      width: 100%;
+    }
+
+    .add-to-cart i {
       font-size: 0.9rem;
     }
 
-    /* booking panel */
-    .booking-panel {
-      background: #0f1624;
-      border-radius: 2rem;
-      padding: 1.8rem 2rem;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4), 0 20px 30px -15px black;
-      margin-top: 0.8rem;
+    .add-to-cart:hover {
+      background: #3b82f6;
+      color: white;
     }
 
-    .booking-header {
+    .add-to-cart.added {
+      background: #22c55e;
+      color: white;
+    }
+
+    .rating {
       display: flex;
-      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.8rem;
+      color: #f59e0b;
+      margin-bottom: 0.4rem;
+    }
+
+    .rating span {
+      color: #64748b;
+      font-size: 0.75rem;
+      margin-left: 0.2rem;
+    }
+
+    /* ---------- mini cart summary (footer) ---------- */
+    .cart-summary {
+      background: white;
+      border-top: 1px solid #e2e8f0;
+      padding: 1.2rem 2rem;
+      display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1.8rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: auto;
+      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.02);
     }
 
-    .selected-movie-info {
+    .cart-info {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 1.2rem;
+      font-size: 0.95rem;
     }
 
-    .selected-movie-info i {
-      font-size: 2rem;
-      color: #ffb347;
+    .cart-info i {
+      font-size: 1.3rem;
+      color: #3b82f6;
+      margin-right: 0.2rem;
     }
 
-    .selected-movie-info h3 {
-      font-size: 1.4rem;
-      font-weight: 500;
-      color: #dde6f5;
+    .cart-total {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #0f172a;
+      margin-left: 0.4rem;
     }
 
-    .selected-movie-info h3 span {
-      color: #ffb347;
+    .checkout-btn {
+      background: #3b82f6;
+      border: none;
+      padding: 0.8rem 2.2rem;
+      border-radius: 60px;
       font-weight: 600;
-    }
-
-    .screen-indicator {
+      color: white;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s;
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      color: #95a5c0;
-      background: #1a2336;
-      padding: 0.4rem 1.3rem;
-      border-radius: 40px;
-      font-size: 0.95rem;
-      border: 1px solid #2e3b52;
+      font-family: inherit;
     }
 
-    .screen-indicator i {
-      color: #ffb347;
+    .checkout-btn:hover {
+      background: #2563eb;
     }
 
-    /* seat map */
-    .seat-map {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 1.5rem 0 2rem;
-    }
-
-    .screen-curve {
-      width: 80%;
-      max-width: 550px;
-      height: 24px;
-      background: radial-gradient(ellipse at 50% 100%, #2e3f5e, #0b111e 85%);
-      border-radius: 50% / 100% 100% 0 0;
-      margin-bottom: 1.5rem;
-      border-top: 2px solid #3e506e;
-      box-shadow: 0 -6px 12px rgba(0, 0, 0, 0.6);
-      transform: perspective(300px) rotateX(2deg);
-    }
-
-    .seats-row {
-      display: flex;
-      justify-content: center;
-      gap: 0.75rem;
-      margin-bottom: 0.75rem;
-      flex-wrap: wrap;
-    }
-
-    .seat {
-      width: 40px;
-      height: 40px;
-      background: #232e42;
-      border-radius: 12px 12px 8px 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #b7c9e2;
-      cursor: pointer;
-      transition: 0.12s ease;
-      border: 1px solid #3b4a66;
-      box-shadow: 0 6px 0 #0d121f;
-      user-select: none;
-    }
-
-    .seat.available:hover {
-      background: #ffb347;
-      color: #0b0f1a;
-      border-color: #ffb347;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 0 #b16f1a;
-    }
-
-    .seat.selected {
-      background: #ffb347;
-      color: #0b0f1a;
-      border-color: #ffcc80;
-      box-shadow: 0 6px 0 #b16f1a;
-      font-weight: 700;
-    }
-
-    .seat.occupied {
-      background: #2a1f1f;
-      color: #5e4a4a;
-      border-color: #3a2c2c;
-      box-shadow: 0 6px 0 #0d0a0a;
-      cursor: not-allowed;
-      text-decoration: line-through 1px #7a5a5a;
-    }
-
-    .seat.occupied::before {
-      content: "✕";
-      font-size: 0.9rem;
-      opacity: 0.7;
-    }
-
-    .seat.occupied span {
-      display: none;
-    }
-
-    /* legend + summary */
-    .legend-summary {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1.5rem;
-      margin: 1.5rem 0 1.2rem;
-      color: #b1c2da;
-      font-size: 0.9rem;
-    }
-
-    .legend {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .legend-box {
-      width: 20px;
-      height: 20px;
-      border-radius: 6px;
-    }
-
-    .legend-box.available {
-      background: #232e42;
-      border: 1px solid #3b4a66;
-    }
-
-    .legend-box.selected {
-      background: #ffb347;
-      border: 1px solid #ffcc80;
-    }
-
-    .legend-box.occupied {
-      background: #2a1f1f;
-      border: 1px solid #3a2c2c;
-    }
-
-    .total-price {
-      background: #1b2537;
-      padding: 0.5rem 1.5rem;
-      border-radius: 50px;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-weight: 500;
-      border: 1px solid #33425a;
-    }
-
-    .total-price i {
-      color: #ffb347;
-      font-size: 1.2rem;
-    }
-
-    .total-price span {
-      color: #ffb347;
-      font-weight: 700;
-      font-size: 1.4rem;
-      margin-left: 0.3rem;
-    }
-
-    .action-buttons {
-      display: flex;
-      gap: 1.2rem;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-      margin-top: 1.8rem;
-    }
-
-    .btn {
-      border: none;
-      padding: 0.9rem 2rem;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      cursor: pointer;
-      transition: 0.15s;
-      background: transparent;
-      color: #cfd9e6;
-      border: 1px solid #37465f;
-    }
-
-    .btn-primary {
-      background: #ffb347;
-      color: #0b0f1a;
-      border: 1px solid #ffb347;
-      box-shadow: 0 6px 14px -4px #ffb34760;
-    }
-
-    .btn-primary:hover {
-      background: #ffa62b;
-      transform: scale(1.02);
-      box-shadow: 0 10px 20px -4px #ffb34780;
-    }
-
-    .btn-secondary:hover {
-      background: #1b2537;
-      border-color: #4b5d7a;
-      color: #fff;
-    }
-
-    .btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-
-    .confirmation-message {
-      margin-top: 1.2rem;
-      text-align: center;
-      color: #7cd992;
-      background: #1b3b2b60;
-      padding: 0.8rem;
-      border-radius: 50px;
-      font-weight: 500;
-      border: 1px solid #2e6b48;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-    }
-
-    .confirmation-message.show {
-      display: flex;
-    }
-
-    /* responsive */
+    /* ---------- responsive ---------- */
     @media (max-width: 700px) {
-      .app {
-        padding: 1.5rem;
+      .top-bar {
+        padding: 0.8rem 1rem;
       }
-      .seat {
-        width: 34px;
-        height: 34px;
-        font-size: 0.7rem;
+
+      .hero {
+        margin: 1rem 1rem 0.5rem;
+        padding: 1.6rem 1.2rem;
       }
-      .seats-row {
+
+      .hero-text h1 {
+        font-size: 1.7rem;
+      }
+
+      .categories {
+        padding: 1rem 1rem 0;
         gap: 0.5rem;
       }
-      .booking-panel {
-        padding: 1.5rem;
+
+      .product-grid {
+        padding: 1rem 1rem 2rem;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 1rem;
       }
-      .legend-summary {
+
+      .cart-summary {
+        padding: 1rem;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
+        text-align: center;
+      }
+
+      .cart-info {
+        justify-content: center;
+      }
+
+      .checkout-btn {
+        justify-content: center;
+      }
+
+      .nav-icons a span {
+        display: none; /* hide text on small screens, keep icons */
+      }
+
+      .nav-icons {
+        gap: 1rem;
       }
     }
 
-    @media (max-width: 450px) {
-      .seat {
-        width: 28px;
-        height: 28px;
-        font-size: 0.6rem;
+    @media (max-width: 480px) {
+      .logo {
+        font-size: 1.3rem;
       }
-      .booking-header {
-        flex-direction: column;
-        align-items: flex-start;
+
+      .logo i {
+        font-size: 1.6rem;
+      }
+
+      .search-wrapper button span {
+        display: none;
+      }
+
+      .search-wrapper button i {
+        margin: 0;
+      }
+
+      .product-title {
+        font-size: 0.95rem;
+      }
+
+      .current-price {
+        font-size: 1.1rem;
       }
     }
   </style>
 </head>
 <body>
-  <div class="app">
-    <!-- header -->
-    <div class="header">
-      <div class="logo">
-        <i class="fas fa-film"></i>
-        <h1>Cine<span>Book</span></h1>
-      </div>
-      <div class="user-badge">
-        <i class="fas fa-user-circle"></i>
-        <span>Alex Rivera</span>
-      </div>
+  <!-- ---------- HEADER ---------- -->
+  <header class="top-bar">
+    <div class="logo">
+      <i class="fas fa-bag-shopping"></i>
+      <span>UrbanCart</span>
     </div>
 
-    <!-- now showing -->
-    <div class="section-title">
-      <i class="fas fa-video"></i>
-      <h2>Now showing</h2>
+    <div class="search-wrapper">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Search products, brands, categories..." id="searchInput">
+      <button><i class="fas fa-arrow-right"></i><span>Search</span></button>
     </div>
 
-    <div class="movie-grid" id="movieGrid">
-      <!-- movie cards will be injected by JS, but we also have static fallback (nice for HTML preview) -->
+    <div class="nav-icons">
+      <a href="#"><i class="far fa-heart"></i><span>Wishlist</span></a>
+      <a href="#"><i class="far fa-user"></i><span>Account</span></a>
+      <a href="#" class="cart-icon">
+        <i class="fas fa-shopping-bag"></i>
+        <span id="cartBadge" class="cart-count">0</span>
+        <span>Cart</span>
+      </a>
     </div>
+  </header>
 
-    <!-- booking panel -->
-    <div class="booking-panel">
-      <div class="booking-header">
-        <div class="selected-movie-info">
-          <i class="fas fa-ticket-alt"></i>
-          <h3><span id="selectedMovieTitle">Interstellar</span> · <span id="selectedShowtime">7:30 PM</span></h3>
-        </div>
-        <div class="screen-indicator">
-          <i class="fas fa-tv"></i> SCREEN 4 · IMAX
-        </div>
-      </div>
-
-      <!-- seat map -->
-      <div class="seat-map" id="seatMap">
-        <!-- dynamically generated seat rows -->
-      </div>
-
-      <!-- legend & total -->
-      <div class="legend-summary">
-        <div class="legend">
-          <div class="legend-item"><div class="legend-box available"></div> Available</div>
-          <div class="legend-item"><div class="legend-box selected"></div> Selected</div>
-          <div class="legend-item"><div class="legend-box occupied"></div> Occupied</div>
-        </div>
-        <div class="total-price">
-          <i class="fas fa-coins"></i> Total: <span id="totalAmount">$0</span>
-        </div>
-      </div>
-
-      <!-- action buttons -->
-      <div class="action-buttons">
-        <button class="btn btn-secondary" id="clearSelectionBtn"><i class="fas fa-undo-alt"></i> Clear</button>
-        <button class="btn btn-primary" id="confirmBookingBtn"><i class="fas fa-check-circle"></i> Confirm booking</button>
-      </div>
-
-      <!-- confirmation message -->
-      <div class="confirmation-message" id="confirmationMsg">
-        <i class="fas fa-check-circle"></i> <span id="confirmationText">Booking confirmed! Enjoy your movie.</span>
-      </div>
+  <!-- ---------- HERO / PROMO ---------- -->
+  <section class="hero">
+    <div class="hero-text">
+      <div class="hero-badge">SUMMER DROP</div>
+      <h1>Up to 40% off<br>on essentials.</h1>
+      <p>Fresh styles, tech & home — limited time.</p>
+      <button class="hero-btn">Shop the sale <i class="fas fa-arrow-right" style="margin-left: 6px;"></i></button>
     </div>
+    <div style="font-size: 5rem; opacity: 0.6; user-select: none;">🛍️</div>
+  </section>
+
+  <!-- ---------- CATEGORY CHIPS ---------- -->
+  <div class="categories">
+    <button class="category-chip active" data-category="all">All</button>
+    <button class="category-chip" data-category="electronics">Electronics</button>
+    <button class="category-chip" data-category="fashion">Fashion</button>
+    <button class="category-chip" data-category="home">Home</button>
+    <button class="category-chip" data-category="beauty">Beauty</button>
+    <button class="category-chip" data-category="sports">Sports</button>
   </div>
+
+  <!-- ---------- PRODUCT GRID ---------- -->
+  <div class="product-grid" id="productGrid">
+    <!-- products will be injected via JavaScript -->
+  </div>
+
+  <!-- ---------- CART SUMMARY (FOOTER) ---------- -->
+  <footer class="cart-summary">
+    <div class="cart-info">
+      <i class="fas fa-shopping-cart"></i>
+      <span>Your cart: <span id="cartItemsCount">0</span> items</span>
+      <span>Total: <span class="cart-total" id="cartTotal">$0.00</span></span>
+    </div>
+    <button class="checkout-btn" id="checkoutBtn">
+      <i class="fas fa-lock"></i> Checkout
+    </button>
+  </footer>
 
   <script>
     (function() {
-      // ---------- MOVIE DATA ----------
-      const movies = [
-        {
-          id: 1,
-          title: 'Interstellar',
-          showtime: '7:30 PM',
-          rating: 8.7,
-          price: 12,
-          poster: 'https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg' // interstellar
-        },
-        {
-          id: 2,
-          title: 'Dune: Part Two',
-          showtime: '8:15 PM',
-          rating: 8.5,
-          price: 14,
-          poster: 'https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg'
-        },
-        {
-          id: 3,
-          title: 'Oppenheimer',
-          showtime: '6:45 PM',
-          rating: 8.9,
-          price: 13,
-          poster: 'https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg'
-        },
-        {
-          id: 4,
-          title: 'The Batman',
-          showtime: '9:00 PM',
-          rating: 7.9,
-          price: 11,
-          poster: 'https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg'
-        }
+      // ---------- PRODUCT DATA ----------
+      const products = [
+        { id: 1, name: 'Wireless Headphones', category: 'electronics', price: 89.99, oldPrice: 129.99, rating: 4.5, icon: 'fa-headphones', color: '#3b82f6' },
+        { id: 2, name: 'Smart Watch Series 7', category: 'electronics', price: 249.00, oldPrice: 299.00, rating: 4.8, icon: 'fa-clock', color: '#0f172a' },
+        { id: 3, name: 'Leather Backpack', category: 'fashion', price: 59.95, oldPrice: 89.95, rating: 4.3, icon: 'fa-bag-shopping', color: '#b45309' },
+        { id: 4, name: 'Running Sneakers', category: 'sports', price: 79.99, oldPrice: 110.00, rating: 4.6, icon: 'fa-shoe-prints', color: '#16a34a' },
+        { id: 5, name: 'Scented Candle Set', category: 'home', price: 32.50, oldPrice: 45.00, rating: 4.7, icon: 'fa-fire', color: '#d97706' },
+        { id: 6, name: 'Face Serum', category: 'beauty', price: 24.99, oldPrice: 39.99, rating: 4.4, icon: 'fa-spa', color: '#ec4899' },
+        { id: 7, name: '4K Action Camera', category: 'electronics', price: 149.99, oldPrice: 199.99, rating: 4.9, icon: 'fa-camera', color: '#0f172a' },
+        { id: 8, name: 'Organic Cotton Tee', category: 'fashion', price: 19.99, oldPrice: 29.99, rating: 4.2, icon: 'fa-tshirt', color: '#2563eb' },
+        { id: 9, name: 'Yoga Mat Pro', category: 'sports', price: 45.00, oldPrice: 65.00, rating: 4.7, icon: 'fa-ellipsis-h', color: '#7c3aed' },
+        { id: 10, name: 'Ceramic Diffuser', category: 'home', price: 38.20, oldPrice: 54.00, rating: 4.5, icon: 'fa-leaf', color: '#0d9488' },
+        { id: 11, name: 'Lipstick Kit', category: 'beauty', price: 29.50, oldPrice: 49.00, rating: 4.6, icon: 'fa-paint-brush', color: '#db2777' },
+        { id: 12, name: 'Bluetooth Speaker', category: 'electronics', price: 69.99, oldPrice: 99.99, rating: 4.5, icon: 'fa-volume-up', color: '#2563eb' },
       ];
 
       // ---------- STATE ----------
-      let selectedMovie = movies[0];            // default: Interstellar
-      let selectedSeats = new Set();            // store seat identifiers like "A1"
-      const ROWS = ['A', 'B', 'C', 'D', 'E', 'F'];
-      const SEATS_PER_ROW = 8;
-      // pre-occupied seats (static, for demo)
-      const occupiedSeats = new Set([
-        'A3', 'A4', 'B6', 'C2', 'C3', 'D5', 'E7', 'E8', 'F1', 'F2'
-      ]);
+      let cart = [];            // array of { id, name, price, quantity }
+      let currentCategory = 'all';
+      let searchQuery = '';
 
       // DOM elements
-      const movieGridEl = document.getElementById('movieGrid');
-      const seatMapEl = document.getElementById('seatMap');
-      const selectedMovieTitleEl = document.getElementById('selectedMovieTitle');
-      const selectedShowtimeEl = document.getElementById('selectedShowtime');
-      const totalAmountEl = document.getElementById('totalAmount');
-      const clearBtn = document.getElementById('clearSelectionBtn');
-      const confirmBtn = document.getElementById('confirmBookingBtn');
-      const confirmationMsg = document.getElementById('confirmationMsg');
-      const confirmationText = document.getElementById('confirmationText');
+      const productGrid = document.getElementById('productGrid');
+      const cartBadge = document.getElementById('cartBadge');
+      const cartItemsCount = document.getElementById('cartItemsCount');
+      const cartTotal = document.getElementById('cartTotal');
+      const checkoutBtn = document.getElementById('checkoutBtn');
+      const searchInput = document.getElementById('searchInput');
+      const categoryChips = document.querySelectorAll('.category-chip');
 
-      // ---------- RENDER MOVIE CARDS ----------
-      function renderMovies() {
-        movieGridEl.innerHTML = movies.map(movie => `
-          <div class="movie-card" data-movie-id="${movie.id}">
-            <div class="poster" style="background-image: url('${movie.poster}'), linear-gradient(145deg, #1e2b3f, #0f1624);">
-              <div class="rating"><i class="fas fa-star"></i> ${movie.rating}</div>
-            </div>
-            <div class="movie-info">
-              <h3>${movie.title}</h3>
-              <div class="movie-meta">
-                <span><i class="far fa-clock"></i> ${movie.showtime}</span>
-                <span><i class="fas fa-tag"></i> $${movie.price}</span>
-              </div>
-              <button class="book-btn" data-movie-id="${movie.id}">
-                <i class="fas fa-chair"></i> Select seats
-              </button>
-            </div>
-          </div>
-        `).join('');
+      // ---------- HELPER: format currency ----------
+      const formatPrice = (price) => `$${price.toFixed(2)}`;
 
-        // attach event listeners to "Select seats" buttons (and whole card optional)
-        document.querySelectorAll('.book-btn').forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const movieId = Number(btn.dataset.movieId);
-            const movie = movies.find(m => m.id === movieId);
-            if (movie) selectMovie(movie);
-          });
+      // ---------- RENDER PRODUCTS (with filters) ----------
+      function renderProducts() {
+        // filter by category and search query
+        const filtered = products.filter(product => {
+          const matchesCategory = currentCategory === 'all' || product.category === currentCategory;
+          const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
+          return matchesCategory && matchesSearch;
         });
 
-        // make card also clickable
-        document.querySelectorAll('.movie-card').forEach(card => {
-          card.addEventListener('click', (e) => {
-            // avoid double trigger if click on button
-            if (e.target.closest('.book-btn')) return;
-            const movieId = Number(card.dataset.movieId);
-            const movie = movies.find(m => m.id === movieId);
-            if (movie) selectMovie(movie);
-          });
-        });
-      }
-
-      // ---------- SELECT MOVIE ----------
-      function selectMovie(movie) {
-        selectedMovie = movie;
-        selectedSeats.clear();               // reset seat selection
-        selectedMovieTitleEl.textContent = movie.title;
-        selectedShowtimeEl.textContent = movie.showtime;
-        renderSeatMap();
-        updateTotal();
-        hideConfirmation();
-      }
-
-      // ---------- RENDER SEAT MAP ----------
-      function renderSeatMap() {
-        // build rows
-        let rowsHtml = '';
-        // screen curve
-        rowsHtml += `<div class="screen-curve"></div>`;
-
-        ROWS.forEach(rowLetter => {
-          let seatsHtml = '';
-          for (let i = 1; i <= SEATS_PER_ROW; i++) {
-            const seatId = `${rowLetter}${i}`;
-            const isOccupied = occupiedSeats.has(seatId);
-            const isSelected = selectedSeats.has(seatId);
-            const seatClass = `seat ${isOccupied ? 'occupied' : 'available'} ${isSelected ? 'selected' : ''}`;
-            // For occupied seats, show ✕ via CSS (pseudo) — we use a span for accessibility, but it's hidden by css
-            seatsHtml += `<div class="${seatClass}" data-seat-id="${seatId}" data-row="${rowLetter}" data-number="${i}">
-                            <span>${rowLetter}${i}</span>
-                          </div>`;
-          }
-          rowsHtml += `<div class="seats-row">${seatsHtml}</div>`;
-        });
-
-        seatMapEl.innerHTML = rowsHtml;
-
-        // attach click listeners to seats (only available & not occupied)
-        document.querySelectorAll('.seat.available').forEach(seatEl => {
-          seatEl.addEventListener('click', (e) => {
-            const seatId = seatEl.dataset.seatId;
-            if (!seatId) return;
-            // toggle selection
-            if (selectedSeats.has(seatId)) {
-              selectedSeats.delete(seatId);
-            } else {
-              selectedSeats.add(seatId);
-            }
-            // update visual class
-            seatEl.classList.toggle('selected');
-            updateTotal();
-            hideConfirmation();
-          });
-        });
-      }
-
-      // ---------- UPDATE TOTAL PRICE ----------
-      function updateTotal() {
-        const total = selectedSeats.size * selectedMovie.price;
-        totalAmountEl.textContent = `$${total}`;
-      }
-
-      // ---------- CLEAR SELECTION ----------
-      function clearSelection() {
-        selectedSeats.clear();
-        // re-render seat map to remove selected classes
-        renderSeatMap();
-        updateTotal();
-        hideConfirmation();
-      }
-
-      // ---------- CONFIRM BOOKING ----------
-      function confirmBooking() {
-        if (selectedSeats.size === 0) {
-          alert('Please select at least one seat.');
+        if (filtered.length === 0) {
+          productGrid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 3rem 1rem; color: #64748b;">
+            <i class="fas fa-box-open" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+            <p>No products match your filter.</p>
+          </div>`;
           return;
         }
 
-        // mark seats as occupied (simulate)
-        selectedSeats.forEach(seatId => {
-          occupiedSeats.add(seatId);
+        productGrid.innerHTML = filtered.map(product => {
+          const inCart = cart.find(item => item.id === product.id);
+          const quantity = inCart ? inCart.quantity : 0;
+          const isAdded = quantity > 0;
+
+          return `
+            <div class="product-card" data-id="${product.id}">
+              <div class="product-image" style="color: ${product.color || '#3b82f6'};">
+                <i class="fas ${product.icon}"></i>
+              </div>
+              <div class="product-category">${product.category}</div>
+              <div class="product-title">${product.name}</div>
+              <div class="rating">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                <span>(${product.rating})</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">${formatPrice(product.price)}</span>
+                ${product.oldPrice ? `<span class="old-price">${formatPrice(product.oldPrice)}</span>` : ''}
+              </div>
+              <button class="add-to-cart ${isAdded ? 'added' : ''}" data-id="${product.id}">
+                <i class="fas ${isAdded ? 'fa-check' : 'fa-shopping-cart'}"></i>
+                ${isAdded ? `In cart (${quantity})` : 'Add to cart'}
+              </button>
+            </div>
+          `;
+        }).join('');
+
+        // attach event listeners to "add to cart" buttons
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const productId = Number(btn.dataset.id);
+            addToCart(productId);
+          });
         });
-
-        const seatList = Array.from(selectedSeats).sort().join(', ');
-        const total = selectedSeats.size * selectedMovie.price;
-
-        // show confirmation message
-        confirmationText.textContent = `✅ ${selectedSeats.size} seat(s) (${seatList}) for ${selectedMovie.title} · Total $${total}`;
-        confirmationMsg.classList.add('show');
-
-        // clear selected seats (they are now occupied)
-        selectedSeats.clear();
-
-        // re-render seat map with new occupied
-        renderSeatMap();
-        updateTotal();
-
-        // auto hide confirmation after 5 seconds
-        setTimeout(() => {
-          hideConfirmation();
-        }, 6000);
       }
 
-      function hideConfirmation() {
-        confirmationMsg.classList.remove('show');
+      // ---------- ADD TO CART ----------
+      function addToCart(productId) {
+        const product = products.find(p => p.id === productId);
+        if (!product) return;
+
+        const existing = cart.find(item => item.id === productId);
+        if (existing) {
+          existing.quantity += 1;
+        } else {
+          cart.push({ id: product.id, name: product.name, price: product.price, quantity: 1 });
+        }
+
+        updateCartUI();
+        renderProducts();   // re-render to update button state & quantity
       }
 
-      // ---------- INITIALIZATION ----------
-      function init() {
-        renderMovies();
-        // set default selected movie (Interstellar)
-        selectedMovie = movies[0];
-        selectedMovieTitleEl.textContent = selectedMovie.title;
-        selectedShowtimeEl.textContent = selectedMovie.showtime;
-        renderSeatMap();
-        updateTotal();
+      // ---------- UPDATE CART INDICATORS ----------
+      function updateCartUI() {
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-        // event listeners for buttons
-        clearBtn.addEventListener('click', clearSelection);
-        confirmBtn.addEventListener('click', confirmBooking);
+        cartBadge.textContent = totalItems;
+        cartItemsCount.textContent = totalItems;
+        cartTotal.textContent = formatPrice(totalPrice);
+
+        // if cart empty, badge could be hidden or show 0 — fine as is
+        if (totalItems === 0) {
+          cartBadge.style.background = '#94a3b8'; // grey
+        } else {
+          cartBadge.style.background = '#ef4444';
+        }
       }
 
-      init();
+      // ---------- SETUP CATEGORY FILTERS ----------
+      categoryChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          categoryChips.forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          currentCategory = chip.dataset.category;
+          renderProducts();
+        });
+      });
+
+      // ---------- SEARCH (on input) ----------
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value.trim().toLowerCase();
+        renderProducts();
+      });
+
+      // Also handle search button click (prevents page reload if inside form, but no form here)
+      document.querySelector('.search-wrapper button').addEventListener('click', () => {
+        searchQuery = searchInput.value.trim().toLowerCase();
+        renderProducts();
+      });
+
+      // ---------- CHECKOUT (demo) ----------
+      checkoutBtn.addEventListener('click', () => {
+        if (cart.length === 0) {
+          alert('Your cart is empty. Add some products first!');
+        } else {
+          const total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+          alert(`✅ Order summary\n\nItems: ${cart.reduce((s, i) => s + i.quantity, 0)}\nTotal: ${formatPrice(total)}\n\nThis is a demo checkout.`);
+          // optional: clear cart (uncomment next lines to enable)
+          // cart = [];
+          // updateCartUI();
+          // renderProducts();
+        }
+      });
+
+      // ---------- INIT ----------
+      renderProducts();
+      updateCartUI();  // starts at 0, but ensures badge shows correct style
     })();
   </script>
 </body>
